@@ -1,0 +1,1114 @@
+{
+  "metadata": {
+    "economyName": "ViennaCircularEconomy",
+    "generatedAt": "2026-01-02T20:04:39.969Z",
+    "generator": "ceml-json-generator",
+    "schemaVersion": "v1.0.0"
+  },
+  "metrics": {
+    "counts": {
+      "components": 16,
+      "products": 6,
+      "consumers": 4,
+      "manufacturers": 4,
+      "retailers": 3,
+      "sustainabilityGoals": 3,
+      "orders": 6,
+      "returns": 4,
+      "facilities": {
+        "total": 3,
+        "recycle": 1,
+        "repair": 1,
+        "refurbish": 1
+      },
+      "circularProcesses": {
+        "total": 4,
+        "recycle": 2,
+        "repair": 1,
+        "refurbish": 1
+      },
+      "shipments": {
+        "total": 4,
+        "delivered": 3,
+        "pending": 1
+      }
+    },
+    "aggregates": {
+      "energySavedKWh": 68.75,
+      "waterSavedL": 1260,
+      "co2Emission": 63
+    },
+    "byFacility": {
+      "ViennaElectronicsRecycleFacility": {
+        "type": "RECYCLE",
+        "energySavedKWh": 25,
+        "waterSavedL": 500,
+        "co2Emission": 29,
+        "processCount": 2
+      },
+      "StadtWienBikeRepairShop": {
+        "type": "REPAIR",
+        "energySavedKWh": 25,
+        "waterSavedL": 500,
+        "co2Emission": 22,
+        "processCount": 1
+      },
+      "ViennaRefurbishmentCenter": {
+        "type": "REFURBISH",
+        "energySavedKWh": 18.75,
+        "waterSavedL": 260,
+        "co2Emission": 12,
+        "processCount": 1
+      }
+    },
+    "byRetailer": {
+      "MediaMarkt": {
+        "orders": 3,
+        "returns": 3,
+        "returnedProductRatio": 1
+      },
+      "Saturn": {
+        "orders": 2,
+        "returns": 0,
+        "returnedProductRatio": 0
+      },
+      "AnyBike": {
+        "orders": 1,
+        "returns": 1,
+        "returnedProductRatio": 1
+      }
+    },
+    "byProductType": {
+      "Camera": {
+        "totalProducts": 2,
+        "avgPrice": 499.99,
+        "minPrice": 499.99,
+        "maxPrice": 499.99,
+        "avgComponentCount": 2
+      },
+      "Printer": {
+        "totalProducts": 1,
+        "avgPrice": 129.99,
+        "minPrice": 129.99,
+        "maxPrice": 129.99,
+        "avgComponentCount": 2
+      },
+      "Laptop": {
+        "totalProducts": 1,
+        "avgPrice": 1099,
+        "minPrice": 1099,
+        "maxPrice": 1099,
+        "avgComponentCount": 4
+      },
+      "Bike": {
+        "totalProducts": 1,
+        "avgPrice": 899,
+        "minPrice": 899,
+        "maxPrice": 899,
+        "avgComponentCount": 3
+      },
+      "Mobile Phone": {
+        "totalProducts": 1,
+        "avgPrice": 799,
+        "minPrice": 799,
+        "maxPrice": 799,
+        "avgComponentCount": 3
+      }
+    },
+    "byConsumer": {
+      "C1": {
+        "orders": 1,
+        "returns": 1,
+        "returnRate": 1,
+        "distinctProductsOrdered": 1,
+        "distinctRetailersUsed": 1
+      },
+      "C2": {
+        "orders": 2,
+        "returns": 0,
+        "returnRate": 0,
+        "distinctProductsOrdered": 2,
+        "distinctRetailersUsed": 1
+      },
+      "C3": {
+        "orders": 1,
+        "returns": 1,
+        "returnRate": 1,
+        "distinctProductsOrdered": 1,
+        "distinctRetailersUsed": 1
+      },
+      "C4": {
+        "orders": 2,
+        "returns": 2,
+        "returnRate": 1,
+        "distinctProductsOrdered": 2,
+        "distinctRetailersUsed": 1
+      }
+    },
+    "byManufacturer": {
+      "AlpineOpticsAG": {
+        "componentCount": 4,
+        "componentsAssembled": 0,
+        "componentsReady": 2,
+        "componentsInCircularProcess": 2,
+        "componentsRecycled": 2
+      },
+      "DanubeDevicesGmbH": {
+        "componentCount": 6,
+        "componentsAssembled": 6,
+        "componentsReady": 0,
+        "componentsInCircularProcess": 0,
+        "componentsRecycled": 0
+      },
+      "CityCycleAG": {
+        "componentCount": 3,
+        "componentsAssembled": 3,
+        "componentsReady": 0,
+        "componentsInCircularProcess": 0,
+        "componentsRecycled": 0
+      },
+      "MobileTechGmbH": {
+        "componentCount": 3,
+        "componentsAssembled": 3,
+        "componentsReady": 0,
+        "componentsInCircularProcess": 0,
+        "componentsRecycled": 0
+      }
+    },
+    "timeSeries": {
+      "productsAssembledPerYear": {
+        "2022": 6
+      },
+      "ordersPerYear": {
+        "2022": 3,
+        "2023": 3
+      },
+      "shipmentsPerYear": {
+        "2025": 4
+      },
+      "deliveredShipmentsPerYear": {
+        "2025": 3
+      }
+    },
+    "goalComplianceByFacility": {
+      "ViennaElectronicsRecycleFacility": {
+        "SDG_EnergySaved": false,
+        "SDG_CO2Emission": true
+      },
+      "StadtWienBikeRepairShop": {
+        "SDG_WaterSaved": false,
+        "SDG_CO2Emission": true
+      },
+      "ViennaRefurbishmentCenter": {
+        "SDG_EnergySaved": false,
+        "SDG_WaterSaved": false,
+        "SDG_CO2Emission": true
+      }
+    },
+    "shipmentMetrics": {
+      "deliveredRatio": 0.75,
+      "byDestination": {
+        "AlpineOpticsAG": {
+          "shipments": 2,
+          "deliveredShipments": 1,
+          "totalCo2Emission": 29
+        },
+        "CityCycleAG": {
+          "shipments": 1,
+          "deliveredShipments": 1,
+          "totalCo2Emission": 22
+        },
+        "MobileTechGmbH": {
+          "shipments": 1,
+          "deliveredShipments": 1,
+          "totalCo2Emission": 12
+        }
+      }
+    }
+  },
+  "graph": {
+    "nodes": [
+      {
+        "id": "C_CPU_0",
+        "type": "COMPONENT",
+        "attrs": {
+          "componentName": "CPU",
+          "componentState": "ASSEMBLED",
+          "recycled": false
+        }
+      },
+      {
+        "id": "C_OLEDDisplay_0",
+        "type": "COMPONENT",
+        "attrs": {
+          "componentName": "OLED Display",
+          "componentState": "ASSEMBLED",
+          "recycled": false
+        }
+      },
+      {
+        "id": "C_Keyboard_0",
+        "type": "COMPONENT",
+        "attrs": {
+          "componentName": "Keyboard",
+          "componentState": "ASSEMBLED",
+          "recycled": false
+        }
+      },
+      {
+        "id": "C_InkCartridge_0",
+        "type": "COMPONENT",
+        "attrs": {
+          "componentName": "Ink Cartridge",
+          "componentState": "ASSEMBLED",
+          "recycled": false
+        }
+      },
+      {
+        "id": "C_PaperTray_0",
+        "type": "COMPONENT",
+        "attrs": {
+          "componentName": "Paper Tray",
+          "componentState": "ASSEMBLED",
+          "recycled": false
+        }
+      },
+      {
+        "id": "C_Battery_0",
+        "type": "COMPONENT",
+        "attrs": {
+          "componentName": "Battery",
+          "componentState": "ASSEMBLED",
+          "recycled": false
+        }
+      },
+      {
+        "id": "C_CameraLens_0",
+        "type": "COMPONENT",
+        "attrs": {
+          "componentName": "Camera Lens",
+          "componentState": "READY",
+          "recycled": true
+        }
+      },
+      {
+        "id": "C_MemoryCard_0",
+        "type": "COMPONENT",
+        "attrs": {
+          "componentName": "Memory Card",
+          "componentState": "READY",
+          "recycled": true
+        }
+      },
+      {
+        "id": "C_CameraLens_1",
+        "type": "COMPONENT",
+        "attrs": {
+          "componentName": "Camera Lens",
+          "componentState": "IN_CIRCULAR_PROCESS",
+          "recycled": false
+        }
+      },
+      {
+        "id": "C_MemoryCard_1",
+        "type": "COMPONENT",
+        "attrs": {
+          "componentName": "Memory Card",
+          "componentState": "IN_CIRCULAR_PROCESS",
+          "recycled": false
+        }
+      },
+      {
+        "id": "C_BikeFrame_0",
+        "type": "COMPONENT",
+        "attrs": {
+          "componentName": "Bike Frame",
+          "componentState": "ASSEMBLED",
+          "recycled": false
+        }
+      },
+      {
+        "id": "C_BikeWheels_0",
+        "type": "COMPONENT",
+        "attrs": {
+          "componentName": "Bike Wheels",
+          "componentState": "ASSEMBLED",
+          "recycled": false
+        }
+      },
+      {
+        "id": "C_BikeGears_0",
+        "type": "COMPONENT",
+        "attrs": {
+          "componentName": "Bike Gears",
+          "componentState": "ASSEMBLED",
+          "recycled": false
+        }
+      },
+      {
+        "id": "C_MobileCPU_0",
+        "type": "COMPONENT",
+        "attrs": {
+          "componentName": "Mobile CPU",
+          "componentState": "ASSEMBLED",
+          "recycled": false
+        }
+      },
+      {
+        "id": "C_MobileOLEDDisplay_0",
+        "type": "COMPONENT",
+        "attrs": {
+          "componentName": "Mobile OLED Display",
+          "componentState": "ASSEMBLED",
+          "recycled": false
+        }
+      },
+      {
+        "id": "C_MobilePhoneBattery_0",
+        "type": "COMPONENT",
+        "attrs": {
+          "componentName": "Mobile Phone Battery",
+          "componentState": "ASSEMBLED",
+          "recycled": false
+        }
+      },
+      {
+        "id": "P_Camera_0",
+        "type": "PRODUCT",
+        "attrs": {
+          "name": "Camera",
+          "price": 499.99,
+          "assemblyDate": "2022-01-10"
+        }
+      },
+      {
+        "id": "P_Camera_1",
+        "type": "PRODUCT",
+        "attrs": {
+          "name": "Camera",
+          "price": 499.99,
+          "assemblyDate": "2022-01-14"
+        }
+      },
+      {
+        "id": "P_Printer_0",
+        "type": "PRODUCT",
+        "attrs": {
+          "name": "Printer",
+          "price": 129.99,
+          "assemblyDate": "2022-01-27"
+        }
+      },
+      {
+        "id": "P_Laptop_0",
+        "type": "PRODUCT",
+        "attrs": {
+          "name": "Laptop",
+          "price": 1099,
+          "assemblyDate": "2022-02-13"
+        }
+      },
+      {
+        "id": "P_Bike_0",
+        "type": "PRODUCT",
+        "attrs": {
+          "name": "Bike",
+          "price": 899,
+          "assemblyDate": "2022-02-01"
+        }
+      },
+      {
+        "id": "P_MobilePhone_0",
+        "type": "PRODUCT",
+        "attrs": {
+          "name": "Mobile Phone",
+          "price": 799,
+          "assemblyDate": "2022-03-17"
+        }
+      },
+      {
+        "id": "C1",
+        "type": "CONSUMER"
+      },
+      {
+        "id": "C2",
+        "type": "CONSUMER"
+      },
+      {
+        "id": "C3",
+        "type": "CONSUMER"
+      },
+      {
+        "id": "C4",
+        "type": "CONSUMER"
+      },
+      {
+        "id": "MediaMarkt",
+        "type": "RETAILER"
+      },
+      {
+        "id": "Saturn",
+        "type": "RETAILER"
+      },
+      {
+        "id": "AnyBike",
+        "type": "RETAILER"
+      },
+      {
+        "id": "AlpineOpticsAG",
+        "type": "MANUFACTURER"
+      },
+      {
+        "id": "DanubeDevicesGmbH",
+        "type": "MANUFACTURER"
+      },
+      {
+        "id": "CityCycleAG",
+        "type": "MANUFACTURER"
+      },
+      {
+        "id": "MobileTechGmbH",
+        "type": "MANUFACTURER"
+      },
+      {
+        "id": "O1C1",
+        "type": "ORDER",
+        "attrs": {
+          "orderDate": "2022-05-15"
+        }
+      },
+      {
+        "id": "O1C2",
+        "type": "ORDER",
+        "attrs": {
+          "orderDate": "2023-03-02"
+        }
+      },
+      {
+        "id": "O2C2",
+        "type": "ORDER",
+        "attrs": {
+          "orderDate": "2023-05-17"
+        }
+      },
+      {
+        "id": "O1C3",
+        "type": "ORDER",
+        "attrs": {
+          "orderDate": "2023-07-04"
+        }
+      },
+      {
+        "id": "O1C4",
+        "type": "ORDER",
+        "attrs": {
+          "orderDate": "2022-05-17"
+        }
+      },
+      {
+        "id": "O2C4",
+        "type": "ORDER",
+        "attrs": {
+          "orderDate": "2022-07-07"
+        }
+      },
+      {
+        "id": "RO1C1",
+        "type": "RETURN",
+        "attrs": {
+          "reason": "Product reached end of service life and is returned for component recovery."
+        }
+      },
+      {
+        "id": "RO1C3",
+        "type": "RETURN",
+        "attrs": {
+          "reason": "Returned for technical repair and performance restoration."
+        }
+      },
+      {
+        "id": "RO1C4",
+        "type": "RETURN",
+        "attrs": {
+          "reason": "Product reached end of service life and is returned for component recovery."
+        }
+      },
+      {
+        "id": "RO2C4",
+        "type": "RETURN",
+        "attrs": {
+          "reason": "Returned for functional inspection and quality refurbishment to extend its lifecycle."
+        }
+      },
+      {
+        "id": "RecycProc_RO1C1",
+        "type": "CIRCULAR_PROCESS",
+        "attrs": {
+          "energySavedKWh": 12.5,
+          "waterSavedL": 250
+        }
+      },
+      {
+        "id": "RepProc_RO1C3",
+        "type": "CIRCULAR_PROCESS",
+        "attrs": {
+          "energySavedKWh": 25,
+          "waterSavedL": 500
+        }
+      },
+      {
+        "id": "RecycProc_RO1C4",
+        "type": "CIRCULAR_PROCESS",
+        "attrs": {
+          "energySavedKWh": 12.5,
+          "waterSavedL": 250
+        }
+      },
+      {
+        "id": "RefProc_RO2C4",
+        "type": "CIRCULAR_PROCESS",
+        "attrs": {
+          "energySavedKWh": 18.75,
+          "waterSavedL": 260
+        }
+      },
+      {
+        "id": "RecycShipment_RO1C1",
+        "type": "SHIPMENT",
+        "attrs": {
+          "deliveryDate": "2025-10-01",
+          "co2Emission": 14.5,
+          "delivered": true
+        }
+      },
+      {
+        "id": "RepShipment_RO1C3",
+        "type": "SHIPMENT",
+        "attrs": {
+          "deliveryDate": "2025-09-21",
+          "co2Emission": 22,
+          "delivered": true
+        }
+      },
+      {
+        "id": "RecycShipment_RO1C4",
+        "type": "SHIPMENT",
+        "attrs": {
+          "deliveryDate": "2025-11-25",
+          "co2Emission": 14.5,
+          "delivered": false
+        }
+      },
+      {
+        "id": "RefurbShipment_RO2C4",
+        "type": "SHIPMENT",
+        "attrs": {
+          "deliveryDate": "2025-06-18",
+          "co2Emission": 12,
+          "delivered": true
+        }
+      },
+      {
+        "id": "ViennaElectronicsRecycleFacility",
+        "type": "FACILITY",
+        "attrs": {
+          "type": "RECYCLE"
+        }
+      },
+      {
+        "id": "SDG_EnergySaved",
+        "type": "SUSTAINABILITY_GOAL",
+        "attrs": {
+          "description": "Minimum energy saved",
+          "standard": 30,
+          "comparator": "MIN"
+        }
+      },
+      {
+        "id": "SDG_CO2Emission",
+        "type": "SUSTAINABILITY_GOAL",
+        "attrs": {
+          "description": "Maximum CO2 Emission",
+          "standard": 150,
+          "comparator": "MAX"
+        }
+      },
+      {
+        "id": "StadtWienBikeRepairShop",
+        "type": "FACILITY",
+        "attrs": {
+          "type": "REPAIR"
+        }
+      },
+      {
+        "id": "SDG_WaterSaved",
+        "type": "SUSTAINABILITY_GOAL",
+        "attrs": {
+          "description": "Minimum water saved",
+          "standard": 300,
+          "comparator": "MIN"
+        }
+      },
+      {
+        "id": "SDG_CO2Emission",
+        "type": "SUSTAINABILITY_GOAL",
+        "attrs": {
+          "description": "Maximum CO2 Emission",
+          "standard": 150,
+          "comparator": "MAX"
+        }
+      },
+      {
+        "id": "ViennaRefurbishmentCenter",
+        "type": "FACILITY",
+        "attrs": {
+          "type": "REFURBISH"
+        }
+      },
+      {
+        "id": "SDG_EnergySaved",
+        "type": "SUSTAINABILITY_GOAL",
+        "attrs": {
+          "description": "Minimum energy saved",
+          "standard": 30,
+          "comparator": "MIN"
+        }
+      },
+      {
+        "id": "SDG_WaterSaved",
+        "type": "SUSTAINABILITY_GOAL",
+        "attrs": {
+          "description": "Minimum water saved",
+          "standard": 300,
+          "comparator": "MIN"
+        }
+      },
+      {
+        "id": "SDG_CO2Emission",
+        "type": "SUSTAINABILITY_GOAL",
+        "attrs": {
+          "description": "Maximum CO2 Emission",
+          "standard": 150,
+          "comparator": "MAX"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "source": "DanubeDevicesGmbH",
+        "target": "C_CPU_0",
+        "type": "MANUFACTURER_PRODUCES_COMPONENT"
+      },
+      {
+        "source": "DanubeDevicesGmbH",
+        "target": "C_OLEDDisplay_0",
+        "type": "MANUFACTURER_PRODUCES_COMPONENT"
+      },
+      {
+        "source": "DanubeDevicesGmbH",
+        "target": "C_Keyboard_0",
+        "type": "MANUFACTURER_PRODUCES_COMPONENT"
+      },
+      {
+        "source": "DanubeDevicesGmbH",
+        "target": "C_InkCartridge_0",
+        "type": "MANUFACTURER_PRODUCES_COMPONENT"
+      },
+      {
+        "source": "DanubeDevicesGmbH",
+        "target": "C_PaperTray_0",
+        "type": "MANUFACTURER_PRODUCES_COMPONENT"
+      },
+      {
+        "source": "DanubeDevicesGmbH",
+        "target": "C_Battery_0",
+        "type": "MANUFACTURER_PRODUCES_COMPONENT"
+      },
+      {
+        "source": "AlpineOpticsAG",
+        "target": "C_CameraLens_0",
+        "type": "MANUFACTURER_PRODUCES_COMPONENT"
+      },
+      {
+        "source": "AlpineOpticsAG",
+        "target": "C_MemoryCard_0",
+        "type": "MANUFACTURER_PRODUCES_COMPONENT"
+      },
+      {
+        "source": "AlpineOpticsAG",
+        "target": "C_CameraLens_1",
+        "type": "MANUFACTURER_PRODUCES_COMPONENT"
+      },
+      {
+        "source": "AlpineOpticsAG",
+        "target": "C_MemoryCard_1",
+        "type": "MANUFACTURER_PRODUCES_COMPONENT"
+      },
+      {
+        "source": "CityCycleAG",
+        "target": "C_BikeFrame_0",
+        "type": "MANUFACTURER_PRODUCES_COMPONENT"
+      },
+      {
+        "source": "CityCycleAG",
+        "target": "C_BikeWheels_0",
+        "type": "MANUFACTURER_PRODUCES_COMPONENT"
+      },
+      {
+        "source": "CityCycleAG",
+        "target": "C_BikeGears_0",
+        "type": "MANUFACTURER_PRODUCES_COMPONENT"
+      },
+      {
+        "source": "MobileTechGmbH",
+        "target": "C_MobileCPU_0",
+        "type": "MANUFACTURER_PRODUCES_COMPONENT"
+      },
+      {
+        "source": "MobileTechGmbH",
+        "target": "C_MobileOLEDDisplay_0",
+        "type": "MANUFACTURER_PRODUCES_COMPONENT"
+      },
+      {
+        "source": "MobileTechGmbH",
+        "target": "C_MobilePhoneBattery_0",
+        "type": "MANUFACTURER_PRODUCES_COMPONENT"
+      },
+      {
+        "source": "P_Camera_0",
+        "target": "C_CameraLens_0",
+        "type": "PRODUCT_HAS_COMPONENT"
+      },
+      {
+        "source": "P_Camera_0",
+        "target": "C_MemoryCard_0",
+        "type": "PRODUCT_HAS_COMPONENT"
+      },
+      {
+        "source": "P_Camera_1",
+        "target": "C_CameraLens_1",
+        "type": "PRODUCT_HAS_COMPONENT"
+      },
+      {
+        "source": "P_Camera_1",
+        "target": "C_MemoryCard_1",
+        "type": "PRODUCT_HAS_COMPONENT"
+      },
+      {
+        "source": "P_Printer_0",
+        "target": "C_InkCartridge_0",
+        "type": "PRODUCT_HAS_COMPONENT"
+      },
+      {
+        "source": "P_Printer_0",
+        "target": "C_PaperTray_0",
+        "type": "PRODUCT_HAS_COMPONENT"
+      },
+      {
+        "source": "P_Laptop_0",
+        "target": "C_CPU_0",
+        "type": "PRODUCT_HAS_COMPONENT"
+      },
+      {
+        "source": "P_Laptop_0",
+        "target": "C_OLEDDisplay_0",
+        "type": "PRODUCT_HAS_COMPONENT"
+      },
+      {
+        "source": "P_Laptop_0",
+        "target": "C_Keyboard_0",
+        "type": "PRODUCT_HAS_COMPONENT"
+      },
+      {
+        "source": "P_Laptop_0",
+        "target": "C_Battery_0",
+        "type": "PRODUCT_HAS_COMPONENT"
+      },
+      {
+        "source": "P_Bike_0",
+        "target": "C_BikeFrame_0",
+        "type": "PRODUCT_HAS_COMPONENT"
+      },
+      {
+        "source": "P_Bike_0",
+        "target": "C_BikeWheels_0",
+        "type": "PRODUCT_HAS_COMPONENT"
+      },
+      {
+        "source": "P_Bike_0",
+        "target": "C_BikeGears_0",
+        "type": "PRODUCT_HAS_COMPONENT"
+      },
+      {
+        "source": "P_MobilePhone_0",
+        "target": "C_MobileCPU_0",
+        "type": "PRODUCT_HAS_COMPONENT"
+      },
+      {
+        "source": "P_MobilePhone_0",
+        "target": "C_MobileOLEDDisplay_0",
+        "type": "PRODUCT_HAS_COMPONENT"
+      },
+      {
+        "source": "P_MobilePhone_0",
+        "target": "C_MobilePhoneBattery_0",
+        "type": "PRODUCT_HAS_COMPONENT"
+      },
+      {
+        "source": "C1",
+        "target": "O1C1",
+        "type": "CONSUMER_PLACES_ORDER"
+      },
+      {
+        "source": "O1C1",
+        "target": "P_Camera_0",
+        "type": "ORDER_OF_PRODUCT"
+      },
+      {
+        "source": "C2",
+        "target": "O1C2",
+        "type": "CONSUMER_PLACES_ORDER"
+      },
+      {
+        "source": "O1C2",
+        "target": "P_Laptop_0",
+        "type": "ORDER_OF_PRODUCT"
+      },
+      {
+        "source": "C2",
+        "target": "O2C2",
+        "type": "CONSUMER_PLACES_ORDER"
+      },
+      {
+        "source": "O2C2",
+        "target": "P_Printer_0",
+        "type": "ORDER_OF_PRODUCT"
+      },
+      {
+        "source": "C3",
+        "target": "O1C3",
+        "type": "CONSUMER_PLACES_ORDER"
+      },
+      {
+        "source": "O1C3",
+        "target": "P_Bike_0",
+        "type": "ORDER_OF_PRODUCT"
+      },
+      {
+        "source": "C4",
+        "target": "O1C4",
+        "type": "CONSUMER_PLACES_ORDER"
+      },
+      {
+        "source": "O1C4",
+        "target": "P_Camera_1",
+        "type": "ORDER_OF_PRODUCT"
+      },
+      {
+        "source": "C4",
+        "target": "O2C4",
+        "type": "CONSUMER_PLACES_ORDER"
+      },
+      {
+        "source": "O2C4",
+        "target": "P_MobilePhone_0",
+        "type": "ORDER_OF_PRODUCT"
+      },
+      {
+        "source": "C1",
+        "target": "RO1C1",
+        "type": "RETURN_BY_CONSUMER"
+      },
+      {
+        "source": "RO1C1",
+        "target": "O1C1",
+        "type": "RETURN_OF_ORDER"
+      },
+      {
+        "source": "RO1C1",
+        "target": "RecycProc_RO1C1",
+        "type": "RETURN_HAS_PROCESS"
+      },
+      {
+        "source": "C3",
+        "target": "RO1C3",
+        "type": "RETURN_BY_CONSUMER"
+      },
+      {
+        "source": "RO1C3",
+        "target": "O1C3",
+        "type": "RETURN_OF_ORDER"
+      },
+      {
+        "source": "RO1C3",
+        "target": "RepProc_RO1C3",
+        "type": "RETURN_HAS_PROCESS"
+      },
+      {
+        "source": "C4",
+        "target": "RO1C4",
+        "type": "RETURN_BY_CONSUMER"
+      },
+      {
+        "source": "RO1C4",
+        "target": "O1C4",
+        "type": "RETURN_OF_ORDER"
+      },
+      {
+        "source": "RO1C4",
+        "target": "RecycProc_RO1C4",
+        "type": "RETURN_HAS_PROCESS"
+      },
+      {
+        "source": "C4",
+        "target": "RO2C4",
+        "type": "RETURN_BY_CONSUMER"
+      },
+      {
+        "source": "RO2C4",
+        "target": "O2C4",
+        "type": "RETURN_OF_ORDER"
+      },
+      {
+        "source": "RO2C4",
+        "target": "RefProc_RO2C4",
+        "type": "RETURN_HAS_PROCESS"
+      },
+      {
+        "source": "RecycProc_RO1C1",
+        "target": "ViennaElectronicsRecycleFacility",
+        "type": "PROCESS_AT_FACILITY"
+      },
+      {
+        "source": "RecycProc_RO1C1",
+        "target": "C_CameraLens_0",
+        "type": "PROCESS_RECYCLES_COMPONENT"
+      },
+      {
+        "source": "RecycProc_RO1C1",
+        "target": "C_MemoryCard_0",
+        "type": "PROCESS_RECYCLES_COMPONENT"
+      },
+      {
+        "source": "RecycProc_RO1C1",
+        "target": "RecycShipment_RO1C1",
+        "type": "PROCESS_HAS_SHIPMENT"
+      },
+      {
+        "source": "RecycShipment_RO1C1",
+        "target": "AlpineOpticsAG",
+        "type": "SHIPMENT_DESTINATION"
+      },
+      {
+        "source": "RepProc_RO1C3",
+        "target": "StadtWienBikeRepairShop",
+        "type": "PROCESS_AT_FACILITY"
+      },
+      {
+        "source": "RepProc_RO1C3",
+        "target": "RepShipment_RO1C3",
+        "type": "PROCESS_HAS_SHIPMENT"
+      },
+      {
+        "source": "RepShipment_RO1C3",
+        "target": "CityCycleAG",
+        "type": "SHIPMENT_DESTINATION"
+      },
+      {
+        "source": "RecycProc_RO1C4",
+        "target": "ViennaElectronicsRecycleFacility",
+        "type": "PROCESS_AT_FACILITY"
+      },
+      {
+        "source": "RecycProc_RO1C4",
+        "target": "C_CameraLens_1",
+        "type": "PROCESS_RECYCLES_COMPONENT"
+      },
+      {
+        "source": "RecycProc_RO1C4",
+        "target": "C_MemoryCard_1",
+        "type": "PROCESS_RECYCLES_COMPONENT"
+      },
+      {
+        "source": "RecycProc_RO1C4",
+        "target": "RecycShipment_RO1C4",
+        "type": "PROCESS_HAS_SHIPMENT"
+      },
+      {
+        "source": "RecycShipment_RO1C4",
+        "target": "AlpineOpticsAG",
+        "type": "SHIPMENT_DESTINATION"
+      },
+      {
+        "source": "RefProc_RO2C4",
+        "target": "ViennaRefurbishmentCenter",
+        "type": "PROCESS_AT_FACILITY"
+      },
+      {
+        "source": "RefProc_RO2C4",
+        "target": "RefurbShipment_RO2C4",
+        "type": "PROCESS_HAS_SHIPMENT"
+      },
+      {
+        "source": "RefurbShipment_RO2C4",
+        "target": "MobileTechGmbH",
+        "type": "SHIPMENT_DESTINATION"
+      },
+      {
+        "source": "RecycShipment_RO1C1",
+        "target": "AlpineOpticsAG",
+        "type": "SHIPMENT_DESTINATION"
+      },
+      {
+        "source": "RepShipment_RO1C3",
+        "target": "CityCycleAG",
+        "type": "SHIPMENT_DESTINATION"
+      },
+      {
+        "source": "RecycShipment_RO1C4",
+        "target": "AlpineOpticsAG",
+        "type": "SHIPMENT_DESTINATION"
+      },
+      {
+        "source": "RefurbShipment_RO2C4",
+        "target": "MobileTechGmbH",
+        "type": "SHIPMENT_DESTINATION"
+      },
+      {
+        "source": "ViennaElectronicsRecycleFacility",
+        "target": "SDG_EnergySaved",
+        "type": "FACILITY_HAS_GOAL"
+      },
+      {
+        "source": "ViennaElectronicsRecycleFacility",
+        "target": "SDG_CO2Emission",
+        "type": "FACILITY_HAS_GOAL"
+      },
+      {
+        "source": "StadtWienBikeRepairShop",
+        "target": "SDG_WaterSaved",
+        "type": "FACILITY_HAS_GOAL"
+      },
+      {
+        "source": "StadtWienBikeRepairShop",
+        "target": "SDG_CO2Emission",
+        "type": "FACILITY_HAS_GOAL"
+      },
+      {
+        "source": "ViennaRefurbishmentCenter",
+        "target": "SDG_EnergySaved",
+        "type": "FACILITY_HAS_GOAL"
+      },
+      {
+        "source": "ViennaRefurbishmentCenter",
+        "target": "SDG_WaterSaved",
+        "type": "FACILITY_HAS_GOAL"
+      },
+      {
+        "source": "ViennaRefurbishmentCenter",
+        "target": "SDG_CO2Emission",
+        "type": "FACILITY_HAS_GOAL"
+      }
+    ]
+  }
+}

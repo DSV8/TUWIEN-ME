@@ -1,0 +1,78 @@
+CircularEconomy ProductAttributeTest {
+
+    components: [
+        Component C_CPU_0("CPU", ASSEMBLED)
+        Component C_Batt_0("Battery", ASSEMBLED)
+    ]
+
+    products: [
+
+        // Duplicate productName
+        Product P_X5 {
+            productName: "Laptop"
+            productName: "Laptop2"
+            price: 1099.00
+            assemblyDate: "2022-02-13"
+            retailer: MediaMarkt
+            components: [C_CPU_0]
+        }
+
+        // Duplicate price
+        Product P_X6 {
+            productName: "Laptop"
+            price: 1099.00
+            price: 2000.00
+            assemblyDate: "2022-02-13"
+            retailer: MediaMarkt
+            components: [C_CPU_0]
+        }
+
+        // Duplicate assemblyDate
+        Product P_X7 {
+            productName: "Laptop"
+            price: 1099.00
+            assemblyDate: "2022-02-13"
+            assemblyDate: "2022-03-01"
+            retailer: MediaMarkt
+            components: [C_CPU_0]
+        }
+
+        // Duplicate retailer
+        Product P_X8 {
+            productName: "Laptop"
+            price: 1099.00
+            assemblyDate: "2022-02-13"
+            retailer: MediaMarkt
+            retailer: Saturn
+            components: [C_CPU_0]
+        }
+
+        // Valid product (no errors expected)
+        Product P_OK {
+            price: 1099.00
+            productName: "Laptop"
+            retailer: MediaMarkt
+            assemblyDate: "2022-02-13"
+            components: [C_CPU_0]
+        }
+    ]
+
+    facilities: [
+        Facility Temp(RECYCLE) { goals: [
+            SG
+        ] }
+    ]
+
+    goals: [
+        SustainabilityGoal SG {
+            description: "test"
+            standard: 1
+            comparator: MIN
+        }
+    ]
+
+    actors: [
+        Retailer Saturn
+        Retailer MediaMarkt
+    ]
+}

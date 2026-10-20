@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CEML:CircularEconomy
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:CEML="http://www.example.org/CEML">
+  <actor xsi:type="CEML:Manufacturer"
+      name="Alpine Optics AG">
+    <produces
+        id="CameraLens"
+        componentName="Camera Lens"
+        ComponentState="ASSEMBLED"
+        belongs_to="//@product.0"/>
+    <produces
+        id="MemoryCard"
+        componentName="Memory Card"
+        ComponentState="IN_CIRCULAR_PROCESS"
+        belongs_to="//@product.0"/>
+  </actor>
+  <actor xsi:type="CEML:Manufacturer"
+      name="Danube Devices GmbH">
+    <produces
+        id="CPU"
+        componentName="CPU"
+        ComponentState="ASSEMBLED"
+        belongs_to="//@product.2"/>
+    <produces
+        id="OLEDDisplay"
+        componentName="OLED Display"
+        ComponentState="ASSEMBLED"
+        belongs_to="//@product.2"/>
+    <produces
+        id="Keyboard"
+        componentName="Keyboard"
+        ComponentState="ASSEMBLED"
+        belongs_to="//@product.2"/>
+    <produces
+        id="InkCartridge"
+        componentName="Ink Cartridge"
+        ComponentState="ASSEMBLED"
+        belongs_to="//@product.1"/>
+    <produces
+        id="PaperTray"
+        componentName="Paper Tray"
+        ComponentState="ASSEMBLED"
+        belongs_to="//@product.1"/>
+    <produces
+        id="Battery"
+        componentName="Battery"
+        ComponentState="ASSEMBLED"
+        belongs_to="//@product.2"/>
+  </actor>
+  <actor xsi:type="CEML:Manufacturer"
+      name="CityCycle AG">
+    <produces
+        id="BikeFrame"
+        componentName="Bike Frame"
+        ComponentState="ASSEMBLED"
+        belongs_to="//@product.3"/>
+    <produces
+        id="BikeWheels"
+        componentName="Bike Wheels"
+        ComponentState="ASSEMBLED"
+        belongs_to="//@product.3"/>
+    <produces
+        id="BikeGears"
+        componentName="Bike Gears"
+        ComponentState="ASSEMBLED"
+        belongs_to="//@product.3"/>
+  </actor>
+  <actor xsi:type="CEML:Retailer"
+      name="MediaMarkt"/>
+  <actor xsi:type="CEML:Retailer"
+      name="Saturn"/>
+  <actor xsi:type="CEML:Retailer"
+      name="AnyBike"/>
+  <actor xsi:type="CEML:Consumer"
+      name="C1">
+    <orders
+        id="O1C1"
+        date="2025-09-20T00:00:00.000+0200"
+        product="//@product.0"/>
+    <returns
+        order="//@actor.6/@orders.0"
+        id="RO1C1"
+        reason="Lens broken">
+      <circularProcess
+          xsi:type="CEML:RecycleProcess"
+          type="RECYCLE"
+          energySavedKWh="30.0"
+          facility="//@facility.0"
+          recovers="MemoryCard">
+        <shipment
+            id="RO1C1_Shipment"
+            delivered="true"
+            deliveryDate="2025-10-10T00:00:00.000+0200"
+            co2Emission="15.0"
+            destination="//@actor.0"/>
+      </circularProcess>
+    </returns>
+  </actor>
+  <actor xsi:type="CEML:Consumer"
+      name="C2">
+    <orders
+        id="O1C2"
+        date="2025-09-14T00:00:00.000+0200"
+        product="//@product.2"/>
+    <orders
+        id="O2C2"
+        date="2025-10-01T00:00:00.000+0200"
+        product="//@product.1"/>
+  </actor>
+  <actor xsi:type="CEML:Consumer"
+      name="C3">
+    <orders
+        id="O1C3"
+        date="2025-09-09T00:00:00.000+0200"
+        product="//@product.3"/>
+    <returns
+        order="//@actor.8/@orders.0"
+        id="RO1C3"
+        reason="Flat Tire">
+      <circularProcess
+          xsi:type="CEML:RepairProcess"
+          waterSavedL="40.0"
+          facility="//@facility.1">
+        <shipment
+            id="RO1C3_Shipment"
+            delivered="true"
+            deliveryDate="2025-10-15T00:00:00.000+0200"
+            co2Emission="10.0"
+            destination="//@actor.8"/>
+      </circularProcess>
+    </returns>
+  </actor>
+  <facility
+      name="Vienna Electronics Recycle Facility"
+      type="RECYCLE"
+      goals="//@sustainabilitygoal.0"/>
+  <facility
+      name="StadtWien Bike Repair Shop"
+      goals="//@sustainabilitygoal.1"/>
+  <sustainabilitygoal
+      name="SDG-CO2"
+      description="minimizing CO2 emissions"
+      standard="20.0"
+      comparator="MIN"/>
+  <sustainabilitygoal
+      name="SDG-WaterSaved"
+      description="Maximize water saving"
+      standard="30.0"/>
+  <product serialNumber="Camera"
+      productName="Camera"
+      price="399.99"
+      assemblyDate="2025-08-20T00:00:00.000+0200"
+      sold_by="//@actor.3"
+      made_by="CameraLens MemoryCard"/>
+  <product serialNumber="Printer"
+      productName="Printer"
+      price="249.99"
+      assemblyDate="2025-08-28T00:00:00.000+0200"
+      sold_by="//@actor.4"
+      made_by="InkCartridge PaperTray"/>
+  <product serialNumber="Laptop"
+      productName="Laptop"
+      price="999.99"
+      assemblyDate="2025-08-15T00:00:00.000+0200"
+      sold_by="//@actor.3"
+      made_by="CPU OLEDDisplay Keyboard Battery"/>
+  <product serialNumber="Bike"
+      productName="Bike"
+      price="1199.99"
+      assemblyDate="2025-08-30T00:00:00.000+0200"
+      sold_by="//@actor.5"
+      made_by="BikeFrame BikeWheels BikeGears"/>
+</CEML:CircularEconomy>

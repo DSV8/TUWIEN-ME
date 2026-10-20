@@ -1,0 +1,147 @@
+CircularEconomy DateTest {
+
+    components: [
+        Component C_CPU_0("CPU", ASSEMBLED)
+    ]
+
+    products: [
+        // Valid timeline
+        Product P_OK {
+            productName: "Laptop"
+            price: 1200.00
+            assemblyDate: "2022-01-01"
+            retailer: MediaMarkt
+            components: [C_CPU_0]
+        }
+
+        // Order before assembly -> WARNING
+        Product P_OrderBeforeAssembly {
+            productName: "Camera"
+            price: 500.00
+            assemblyDate: "2024-01-10"
+            retailer: MediaMarkt
+            components: [C_CPU_0]
+        }
+
+        // Delivery before order -> WARNING
+        Product P_DeliveryBeforeOrder {
+            productName: "Phone"
+            price: 800.00
+            assemblyDate: "2022-01-01"
+            retailer: MediaMarkt
+            components: [C_CPU_0]
+        }
+
+        // Both order and delivery before assembly -> double WARNING
+        Product P_BothWrong {
+            productName: "Printer"
+            price: 200.00
+            assemblyDate: "2025-01-10"
+            retailer: MediaMarkt
+            components: [C_CPU_0]
+        }
+    ]
+
+    facilities: [
+        Facility F_Refurbish(REFURBISH) { goals: [
+            SG
+        ] }
+    ]
+
+    goals: [
+        SustainabilityGoal SG {
+            description: "test"
+            standard: 1
+            comparator: MIN
+        }
+    ]
+
+    actors: [
+        Retailer MediaMarkt
+
+        Consumer C1 {
+            orders: [
+                // Valid
+                Order O_OK(P_OK, "2022-01-15")
+                Order O1(P_OrderBeforeAssembly, "2023-01-01")
+                Order O2(P_DeliveryBeforeOrder, "2023-02-01")
+                Order O3(P_BothWrong, "2024-01-01")
+                Order O4(P_OK, "2023-05-05")
+            ]
+            returns: [
+                Return R_OK (order: O_OK) {
+                    reason: "OK case"
+                    CircularProcess -> RefurbishProcess ProcOK {
+                        facility: F_Refurbish
+                        energySavedKWh: 10.0
+                        waterSavedL: 50.0
+                        shipment: ShipOK(delivered) {
+                            deliveryDate: "2022-02-01"
+                            co2Emission: 10.0
+                            destination: MediaMarkt
+                        }
+                    }
+                }
+                // Order before assembly -> WARNING
+                Return R1 (order: O1) {
+                    reason: "Order before assembly"
+                    CircularProcess -> RefurbishProcess Proc1 {
+                        facility: F_Refurbish
+                        energySavedKWh: 5.0
+                        waterSavedL: 20.0
+                        shipment: S1(delivered) {
+                            deliveryDate: "2024-01-20"
+                            co2Emission: 10.0
+                            destination: MediaMarkt
+                        }
+                    }
+                }
+
+                // Delivery before order -> WARNING
+                Return R2 (order: O2) {
+                    reason: "Delivery before order"
+                    CircularProcess -> RefurbishProcess Proc2 {
+                        facility: F_Refurbish
+                        energySavedKWh: 5.0
+                        waterSavedL: 20.0
+                        shipment: S2(delivered) {
+                            deliveryDate: "2023-01-01"
+                            co2Emission: 2.0
+                            destination: MediaMarkt
+                        }
+                    }
+                }
+
+                // Both order and delivery before assembly -> double WARNING
+                Return R3 (order: O3) {
+                    reason: "Both wrong"
+                    CircularProcess -> RefurbishProcess Proc3 {
+                        facility: F_Refurbish
+                        energySavedKWh: 5.0
+                        waterSavedL: 20.0
+                        shipment: S3(delivered) {
+                            deliveryDate: "2023-12-01"
+                            co2Emission: 3.0
+                            destination: MediaMarkt
+                        }
+                    }
+                }
+
+                // Pending shipment — allowed
+                Return R4 (order: O4) {
+                    reason: "Pending shipment allowed"
+                    CircularProcess -> RefurbishProcess Proc4 {
+                        facility: F_Refurbish
+                        energySavedKWh: 5.0
+                        waterSavedL: 20.0
+                        shipment: PendingShip {
+                            deliveryDate: "2023-06-01"
+                            co2Emission: 0.0
+                            destination: MediaMarkt
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

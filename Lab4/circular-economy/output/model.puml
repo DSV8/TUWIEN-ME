@@ -1,0 +1,374 @@
+@startuml
+left to right direction
+skinparam padding 4
+skinparam objectBorderThickness 2
+skinparam title {
+  FontSize 24
+}
+skinparam object<<ASSEMBLED>> {
+  BorderColor green
+}
+skinparam object<<READY>> {
+  BorderColor red
+}
+skinparam object<<IN_CIRCULAR_PROCESS>> {
+  BorderColor blue
+}
+skinparam object<<NOT_DELIVERED>> {
+  BorderColor red
+}
+
+title ViennaCircularEconomy
+
+object C_CPU_0 <<ASSEMBLED>> #FFF8DC {
+  componentName = "CPU"
+  state = "ASSEMBLED"
+  recycled = false
+}
+object C_OLEDDisplay_0 <<ASSEMBLED>> #FFF8DC {
+  componentName = "OLED Display"
+  state = "ASSEMBLED"
+  recycled = false
+}
+object C_Keyboard_0 <<ASSEMBLED>> #FFF8DC {
+  componentName = "Keyboard"
+  state = "ASSEMBLED"
+  recycled = false
+}
+object C_InkCartridge_0 <<ASSEMBLED>> #FFF8DC {
+  componentName = "Ink Cartridge"
+  state = "ASSEMBLED"
+  recycled = false
+}
+object C_PaperTray_0 <<ASSEMBLED>> #FFF8DC {
+  componentName = "Paper Tray"
+  state = "ASSEMBLED"
+  recycled = false
+}
+object C_Battery_0 <<ASSEMBLED>> #FFF8DC {
+  componentName = "Battery"
+  state = "ASSEMBLED"
+  recycled = false
+}
+object C_CameraLens_0 <<READY>> #FFF8DC {
+  componentName = "Camera Lens"
+  state = "READY"
+  recycled = true
+}
+object C_MemoryCard_0 <<READY>> #FFF8DC {
+  componentName = "Memory Card"
+  state = "READY"
+  recycled = true
+}
+object C_CameraLens_1 <<IN_CIRCULAR_PROCESS>> #FFF8DC {
+  componentName = "Camera Lens"
+  state = "IN_CIRCULAR_PROCESS"
+  recycled = false
+}
+object C_MemoryCard_1 <<IN_CIRCULAR_PROCESS>> #FFF8DC {
+  componentName = "Memory Card"
+  state = "IN_CIRCULAR_PROCESS"
+  recycled = false
+}
+object C_BikeFrame_0 <<ASSEMBLED>> #FFF8DC {
+  componentName = "Bike Frame"
+  state = "ASSEMBLED"
+  recycled = false
+}
+object C_BikeWheels_0 <<ASSEMBLED>> #FFF8DC {
+  componentName = "Bike Wheels"
+  state = "ASSEMBLED"
+  recycled = false
+}
+object C_BikeGears_0 <<ASSEMBLED>> #FFF8DC {
+  componentName = "Bike Gears"
+  state = "ASSEMBLED"
+  recycled = false
+}
+object C_MobileCPU_0 <<ASSEMBLED>> #FFF8DC {
+  componentName = "Mobile CPU"
+  state = "ASSEMBLED"
+  recycled = false
+}
+object C_MobileOLEDDisplay_0 <<ASSEMBLED>> #FFF8DC {
+  componentName = "Mobile OLED Display"
+  state = "ASSEMBLED"
+  recycled = false
+}
+object C_MobilePhoneBattery_0 <<ASSEMBLED>> #FFF8DC {
+  componentName = "Mobile Phone Battery"
+  state = "ASSEMBLED"
+  recycled = false
+}
+object P_Camera_0 #LightBlue {
+  productName = "Camera"
+  price = 499.99
+  assemblyDate = "2022-01-10"
+}
+object P_Camera_1 #LightBlue {
+  productName = "Camera"
+  price = 499.99
+  assemblyDate = "2022-01-14"
+}
+object P_Printer_0 #LightBlue {
+  productName = "Printer"
+  price = 129.99
+  assemblyDate = "2022-01-27"
+}
+object P_Laptop_0 #LightBlue {
+  productName = "Laptop"
+  price = 1099
+  assemblyDate = "2022-02-13"
+}
+object P_Bike_0 #LightBlue {
+  productName = "Bike"
+  price = 899
+  assemblyDate = "2022-02-01"
+}
+object P_MobilePhone_0 #LightBlue {
+  productName = "Mobile Phone"
+  price = 799
+  assemblyDate = "2022-03-17"
+}
+object ViennaElectronicsRecycleFacility #C8E6C9 {
+  name = "ViennaElectronicsRecycleFacility"
+  type = "RECYCLE"
+}
+object StadtWienBikeRepairShop #C8E6C9 {
+  name = "StadtWienBikeRepairShop"
+  type = "REPAIR"
+}
+object ViennaRefurbishmentCenter #C8E6C9 {
+  name = "ViennaRefurbishmentCenter"
+  type = "REFURBISH"
+}
+object SDG_EnergySaved #FFCDD2 {
+  name = "SDG_EnergySaved"
+  description = "Minimum energy saved"
+  standard = 30
+  comparator = "MIN"
+}
+object SDG_WaterSaved #FFCDD2 {
+  name = "SDG_WaterSaved"
+  description = "Minimum water saved"
+  standard = 300
+  comparator = "MIN"
+}
+object SDG_CO2Emission #FFCDD2 {
+  name = "SDG_CO2Emission"
+  description = "Maximum CO2 Emission"
+  standard = 150
+  comparator = "MAX"
+}
+object MediaMarkt #E0E0E0 {
+  name = "MediaMarkt"
+}
+object Saturn #E0E0E0 {
+  name = "Saturn"
+}
+object AnyBike #E0E0E0 {
+  name = "AnyBike"
+}
+object AlpineOpticsAG #D7CCC8 {
+  name = "AlpineOpticsAG"
+}
+object DanubeDevicesGmbH #D7CCC8 {
+  name = "DanubeDevicesGmbH"
+}
+object CityCycleAG #D7CCC8 {
+  name = "CityCycleAG"
+}
+object MobileTechGmbH #D7CCC8 {
+  name = "MobileTechGmbH"
+}
+object C1 #FFF9C4 {
+  name = "C1"
+}
+object O1C1 #E3F2FD {
+  name = "O1C1"
+  orderDate = "2022-05-15"
+}
+object RO1C1 #F0F4C3 {
+  name = "RO1C1"
+  reason = "Product reached end of service life and is
+returned for component recovery."
+}
+object RecycProc_RO1C1 #C5E1A5 {
+  name = "RecycProc_RO1C1"
+  type = "RECYCLE"
+  energySavedKWh = 12.5
+  waterSavedL = 250
+}
+object RecycShipment_RO1C1 <<DELIVERED>> #F5F5F5 {
+  name = "RecycShipment_RO1C1"
+  delivered = true
+  deliveryDate = "2025-10-01"
+  co2Emission = 14.5
+}
+object C2 #FFF9C4 {
+  name = "C2"
+}
+object O1C2 #E3F2FD {
+  name = "O1C2"
+  orderDate = "2023-03-02"
+}
+object O2C2 #E3F2FD {
+  name = "O2C2"
+  orderDate = "2023-05-17"
+}
+object C3 #FFF9C4 {
+  name = "C3"
+}
+object O1C3 #E3F2FD {
+  name = "O1C3"
+  orderDate = "2023-07-04"
+}
+object RO1C3 #F0F4C3 {
+  name = "RO1C3"
+  reason = "Returned for technical repair and performance
+restoration."
+}
+object RepProc_RO1C3 #FFE082 {
+  name = "RepProc_RO1C3"
+  type = "REPAIR"
+  energySavedKWh = 25
+  waterSavedL = 500
+}
+object RepShipment_RO1C3 <<DELIVERED>> #F5F5F5 {
+  name = "RepShipment_RO1C3"
+  delivered = true
+  deliveryDate = "2025-09-21"
+  co2Emission = 22
+}
+object C4 #FFF9C4 {
+  name = "C4"
+}
+object O1C4 #E3F2FD {
+  name = "O1C4"
+  orderDate = "2022-05-17"
+}
+object O2C4 #E3F2FD {
+  name = "O2C4"
+  orderDate = "2022-07-07"
+}
+object RO1C4 #F0F4C3 {
+  name = "RO1C4"
+  reason = "Product reached end of service life and is
+returned for component recovery."
+}
+object RecycProc_RO1C4 #C5E1A5 {
+  name = "RecycProc_RO1C4"
+  type = "RECYCLE"
+  energySavedKWh = 12.5
+  waterSavedL = 250
+}
+object RecycShipment_RO1C4 <<NOT_DELIVERED>> #F5F5F5 {
+  name = "RecycShipment_RO1C4"
+  delivered = false
+  deliveryDate = "2025-11-25"
+  co2Emission = 14.5
+}
+object RO2C4 #F0F4C3 {
+  name = "RO2C4"
+  reason = "Returned for functional inspection and quality
+refurbishment to extend its lifecycle."
+}
+object RefProc_RO2C4 #B39DDB {
+  name = "RefProc_RO2C4"
+  type = "REFURBISH"
+  energySavedKWh = 18.75
+  waterSavedL = 260
+}
+object RefurbShipment_RO2C4 <<DELIVERED>> #F5F5F5 {
+  name = "RefurbShipment_RO2C4"
+  delivered = true
+  deliveryDate = "2025-06-18"
+  co2Emission = 12
+}
+
+C1 *-- O1C1
+C1 *-- RO1C1
+RO1C1 *-- RecycProc_RO1C1
+RecycProc_RO1C1 *-- RecycShipment_RO1C1
+C2 *-- O1C2
+C2 *-- O2C2
+C3 *-- O1C3
+C3 *-- RO1C3
+RO1C3 *-- RepProc_RO1C3
+RepProc_RO1C3 *-- RepShipment_RO1C3
+C4 *-- O1C4
+C4 *-- O2C4
+C4 *-- RO1C4
+RO1C4 *-- RecycProc_RO1C4
+RecycProc_RO1C4 *-- RecycShipment_RO1C4
+C4 *-- RO2C4
+RO2C4 *-- RefProc_RO2C4
+RefProc_RO2C4 *-- RefurbShipment_RO2C4
+P_Camera_0 --> MediaMarkt
+P_Camera_0 --> C_CameraLens_0
+P_Camera_0 --> C_MemoryCard_0
+P_Camera_1 --> MediaMarkt
+P_Camera_1 --> C_CameraLens_1
+P_Camera_1 --> C_MemoryCard_1
+P_Printer_0 --> Saturn
+P_Printer_0 --> C_InkCartridge_0
+P_Printer_0 --> C_PaperTray_0
+P_Laptop_0 --> Saturn
+P_Laptop_0 --> C_CPU_0
+P_Laptop_0 --> C_OLEDDisplay_0
+P_Laptop_0 --> C_Keyboard_0
+P_Laptop_0 --> C_Battery_0
+P_Bike_0 --> AnyBike
+P_Bike_0 --> C_BikeFrame_0
+P_Bike_0 --> C_BikeWheels_0
+P_Bike_0 --> C_BikeGears_0
+P_MobilePhone_0 --> MediaMarkt
+P_MobilePhone_0 --> C_MobileCPU_0
+P_MobilePhone_0 --> C_MobileOLEDDisplay_0
+P_MobilePhone_0 --> C_MobilePhoneBattery_0
+AlpineOpticsAG --> C_CameraLens_0
+AlpineOpticsAG --> C_CameraLens_1
+AlpineOpticsAG --> C_MemoryCard_0
+AlpineOpticsAG --> C_MemoryCard_1
+DanubeDevicesGmbH --> C_CPU_0
+DanubeDevicesGmbH --> C_OLEDDisplay_0
+DanubeDevicesGmbH --> C_Keyboard_0
+DanubeDevicesGmbH --> C_InkCartridge_0
+DanubeDevicesGmbH --> C_PaperTray_0
+DanubeDevicesGmbH --> C_Battery_0
+CityCycleAG --> C_BikeFrame_0
+CityCycleAG --> C_BikeWheels_0
+CityCycleAG --> C_BikeGears_0
+MobileTechGmbH --> C_MobileCPU_0
+MobileTechGmbH --> C_MobileOLEDDisplay_0
+MobileTechGmbH --> C_MobilePhoneBattery_0
+O1C1 --> P_Camera_0
+O1C2 --> P_Laptop_0
+O2C2 --> P_Printer_0
+O1C3 --> P_Bike_0
+O1C4 --> P_Camera_1
+O2C4 --> P_MobilePhone_0
+RO1C1 --> O1C1
+RO1C3 --> O1C3
+RO1C4 --> O1C4
+RO2C4 --> O2C4
+RecycProc_RO1C1 --> ViennaElectronicsRecycleFacility
+RepProc_RO1C3 --> StadtWienBikeRepairShop
+RecycProc_RO1C4 --> ViennaElectronicsRecycleFacility
+RefProc_RO2C4 --> ViennaRefurbishmentCenter
+RecycProc_RO1C1 --> C_CameraLens_0
+RecycProc_RO1C1 --> C_MemoryCard_0
+RecycProc_RO1C4 --> C_CameraLens_1
+RecycProc_RO1C4 --> C_MemoryCard_1
+RecycShipment_RO1C1 --> AlpineOpticsAG
+RepShipment_RO1C3 --> CityCycleAG
+RecycShipment_RO1C4 --> AlpineOpticsAG
+RefurbShipment_RO2C4 --> MobileTechGmbH
+ViennaElectronicsRecycleFacility --> SDG_EnergySaved
+ViennaElectronicsRecycleFacility --> SDG_CO2Emission
+StadtWienBikeRepairShop --> SDG_WaterSaved
+StadtWienBikeRepairShop --> SDG_CO2Emission
+ViennaRefurbishmentCenter --> SDG_EnergySaved
+ViennaRefurbishmentCenter --> SDG_WaterSaved
+ViennaRefurbishmentCenter --> SDG_CO2Emission
+@enduml

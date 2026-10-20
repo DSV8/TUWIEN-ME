@@ -1,0 +1,145 @@
+rule CircularEconomy2TraceDocument
+transform ce : Source!CircularEconomy
+to  td : Target!TraceDocument {
+    td.name = ce.name + "_FlowTrace";
+    td.flowRecords ::= Source!Return.all;
+
+    var summary = new Target!Summary;
+    summary.repairCount = Source!RepairProcess.allInstances().size();
+    summary.refurbishCount = Source!RefurbishProcess.allInstances().size();
+    summary.recycleCount = Source!RecycleProcess.allInstances().size();
+    td.summary = summary;
+}
+
+rule Return2FlowRecord
+transform r : Source!Return
+to  fr : Target!FlowRecord {
+    // id
+    var consumerName = r.eContainer().name;
+    var productSN = r.order.product.serialNumber;
+    fr.id = r.id + "_" + consumerName + "_" + productSN;
+
+    // reason
+    if (r.reason.isUndefined()) {
+        fr.reason = "Reason not provided.";
+    } else {
+        fr.reason = "Reason: " + r.reason;
+    }
+
+    // traces (RecycleTrace, RefurbishTrace, RepairTrace)
+    fr.process ::= r.circularProcess;
+
+    // participants
+    var consumerReference = r.eContainer()
+        .createParticipantReferenceFromActor();
+    var retailerReference = r.order.product.retailer
+        .createParticipantReferenceFromActor();
+    var manufacturerReference = r.order.product.components.first().eContainer()
+        .createParticipantReferenceFromActor();
+    var facilityReference = r.circularProcess.facility
+        .createParticipantReferenceFromFacility();
+    fr.participants = Sequence{consumerReference, retailerReference, manufacturerReference, facilityReference};
+}
+
+@lazy
+@abstract
+rule Actor2ParticipantReference
+transform a : Source!Actor
+to  pr : Target!ParticipantReference {
+    pr.name = a.name;
+}
+@lazy
+rule Consumer2ParticipantReference
+transform c : Source!Consumer
+to  pr : Target!ParticipantReference
+extends Actor2ParticipantReference {
+    pr.type = "Consumer";
+}
+@lazy
+rule Retailer2ParticipantReference
+transform r : Source!Retailer
+to  pr : Target!ParticipantReference
+extends Actor2ParticipantReference {
+    pr.type = "Retailer";
+}
+@lazy
+rule Manufacturer2ParticipantReference
+transform m : Source!Manufacturer
+to  pr : Target!ParticipantReference
+extends Actor2ParticipantReference {
+    pr.type = "Manufacturer";
+}
+@lazy
+rule Facility2ParticipantReference
+transform f : Source!Facility
+to  pr : Target!ParticipantReference
+extends Actor2ParticipantReference {
+    pr.type = "Facility";
+}
+
+@abstract
+rule CircularProcess2ProcessTrace
+transform cp : Source!CircularProcess
+to  pt : Target!ProcessTrace {
+    pt.facilityName = cp.facility.name;
+    pt.energySaved = cp.energySavedKWh;
+    pt.waterSaved = cp.waterSavedL;
+    if (cp.shipment.isUndefined()) {
+        pt.delivered = false;
+    } else {
+        pt.delivered = cp.shipment.delivered;
+    }
+    // the label is set in the subclasses
+}
+rule RepairProcess2RepairTrace
+transform rp : Source!RepairProcess
+to  rpt : Target!RepairTrace
+extends CircularProcess2ProcessTrace {
+    rpt.label = "REPAIR @ " + rp.facility.name;
+}
+rule RefurbishProcess2RefurbishTrace
+transform rp : Source!RefurbishProcess
+to  rft : Target!RefurbishTrace
+extends CircularProcess2ProcessTrace {
+    rft.label = "REFURBISH @ " + rp.facility.name;
+}
+rule RecycleProcess2RecycleTrace
+transform rp : Source!RecycleProcess
+to  rct : Target!RecycleTrace
+extends CircularProcess2ProcessTrace {
+    // components
+    rct.components ::= rp.components;
+
+    // count recycled vs nonRecycled components
+    var recycledCount = rp.components->select(c | c.recycled = true)->size();
+    var nonRecycledCount = rp.components->select(c | c.recycled = false)->size();
+    rct.label = "RECYCLE @ " + rp.facility.name +
+        " [" + recycledCount + " recycled, " + nonRecycledCount + " nonRecycled]";
+}
+
+@lazy
+rule Component2ComponentTrace
+transform c : Source!Component
+to  ct : Target!ComponentTrace {
+    ct.componentId = c.id;
+    ct.componentName = c.componentName;
+    ct.recycled = c.recycled;
+
+    ct.stateLabel = "State: " + c.componentState.toString().toLowerCase().replaceAll("_", " ");
+}
+
+operation Source!circularEconomy::Actor
+createParticipantReferenceFromActor() : Target!ParticipantReference {
+    var pr = new Target!ParticipantReference;
+    pr.name = self.name;
+    pr.type = "" + self.type().name;
+    return pr;
+}
+
+operation Source!circularEconomy::Facility
+createParticipantReferenceFromFacility() : Target!ParticipantReference {
+    var pr = new Target!ParticipantReference;
+    pr.name = self.name;
+    pr.type = "" + self.type().name;
+    return pr;
+}

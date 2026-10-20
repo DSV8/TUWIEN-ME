@@ -1,0 +1,111 @@
+CircularEconomy TestEcon {
+
+    components: [
+        Component C_CPU_0("CPU", ASSEMBLED)
+        Component C_Battery_0("Battery", ASSEMBLED)
+    ]
+
+    products: [
+        // Correct date
+        Product P_OK_0 {
+            productName: "TestProductGood"
+            price: 100.00
+            assemblyDate: "2023-05-12"
+            retailer: Retailer1
+            components: [
+                C_CPU_0,
+                C_Battery_0
+            ]
+        }
+
+        // --> ERROR
+        Product P_BAD_0 {
+            productName: "TestProductBad"
+            price: 200.00
+            assemblyDate: "05/12/2023"  // --> ERROR
+            retailer: Retailer1
+            components: [
+                C_CPU_0
+            ]
+        }
+
+        // --> ERROR
+        Product P_BAD_1 {
+            productName: "AnotherBadOne"
+            price: 300.00
+            assemblyDate: "2024/01/10" // --> ERROR
+            retailer: Retailer1
+            components: [
+                C_CPU_0
+            ]
+        }
+    ]
+
+    facilities: [
+        Facility TestRecycle(RECYCLE) {
+            goals: [
+                SG_CO2
+            ]
+        }
+    ]
+
+    goals: [
+        SustainabilityGoal SG_CO2 {
+            description: "Max CO2"
+            standard: 100
+            comparator: MAX
+        }
+    ]
+
+    actors: [
+        Retailer Retailer1
+
+        Consumer C1 {
+            orders: [
+                // Correct
+                Order O1C1 (P_OK_0, "2023-06-15")
+
+                // --> ERROR
+                Order O2C1 (P_OK_0, "a")
+            ]
+
+            returns: [
+                Return R1C1 (order: O1C1) {
+                    reason: "Recycle good product"
+                    CircularProcess -> RecycleProcess RPR1 {
+                        facility: TestRecycle
+                        energySavedKWh: 10.0
+                        waterSavedL: 50.0
+                        components: [
+                            C_CPU_0
+                        ]
+                        // Correct shipment date
+                        shipment: S1(delivered) {
+                            deliveryDate: "2024-05-01"
+                            co2Emission: 1.5
+                            destination: Retailer1
+                        }
+                    }
+                }
+
+                Return R2C1 (order: O2C1) {
+                    reason: "Bad order date test"
+                    CircularProcess -> RecycleProcess RPR2 {
+                        facility: TestRecycle
+                        energySavedKWh: 5.0
+                        waterSavedL: 20.0
+                        components: [
+                            C_CPU_0
+                        ]
+                        // --> ERROR
+                        shipment: S2(delivered) {
+                            deliveryDate: "2024/05/01"
+                            co2Emission: 2.0
+                            destination: Retailer1
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="CEML" nsURI="http://www.example.org/CEML" nsPrefix="CEML">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore"/>
+  </eAnnotations>
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="Consumer" eSuperTypes="#//Actor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orders" upperBound="-1"
+        eType="#//Order" containment="true" eOpposite="#//Order/consumer"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="returns" upperBound="-1"
+        eType="#//Return" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CircularEconomy">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actor" upperBound="-1"
+        eType="#//Actor" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="facility" upperBound="-1"
+        eType="#//Facility" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sustainabilitygoal" upperBound="-1"
+        eType="#//SustainabilityGoal" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="product" upperBound="-1"
+        eType="#//Product" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Actor" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Manufacturer" eSuperTypes="#//Actor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="produces" lowerBound="1"
+        upperBound="-1" eType="#//Component" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Retailer" eSuperTypes="#//Actor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Component">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="stateWhenLinkedIsNotReady stateWhenUnlinkedIsReady"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="stateWhenLinkedIsNotReady" value="&#xA;    &#x9;&#x9;not self.belongs_to.oclIsUndefined()&#xA;    &#x9;&#x9;implies (self.ComponentState = ComponentState::ASSEMBLED or self.ComponentState = ComponentState::IN_CIRCULAR_PROCESS)"/>
+      <details key="stateWhenUnlinkedIsReady" value="&#xA;    &#x9;&#x9;self.belongs_to.oclIsUndefined()&#xA;    &#x9;&#x9;implies self.ComponentState = ComponentState::READY"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="recycled" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="componentName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ComponentState" eType="#//ComponentState"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="belongs_to" eType="#//Product"
+        eOpposite="#//Product/made_by"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ComponentState">
+    <eLiterals name="READY"/>
+    <eLiterals name="ASSEMBLED" value="1"/>
+    <eLiterals name="IN_CIRCULAR_PROCESS" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Product">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="serialNumber" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="productName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="price" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="assemblyDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sold_by" lowerBound="1"
+        eType="#//Retailer"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="made_by" lowerBound="1"
+        upperBound="-1" eType="#//Component" eOpposite="#//Component/belongs_to"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SustainabilityGoal">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="standard" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="comparator" eType="#//ComparatorState"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ComparatorState">
+    <eLiterals name="MAX"/>
+    <eLiterals name="MIN" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Facility">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//FacilityType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="goals" upperBound="-1"
+        eType="#//SustainabilityGoal"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="FacilityType">
+    <eLiterals name="REPAIR"/>
+    <eLiterals name="REFURBISH" value="1"/>
+    <eLiterals name="RECYCLE" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Order">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="orderDateLaterThanProductAssemblyDate"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="orderDateLaterThanProductAssemblyDate" value="&#xA;&#x9;&#x9;&#x9;self.date > self.product.assemblyDate"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="product" lowerBound="1"
+        eType="#//Product"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="consumer" lowerBound="1"
+        eType="#//Consumer" eOpposite="#//Consumer/orders"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Return">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="isOwnedBySameConsumerAsOrder"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="isOwnedBySameConsumerAsOrder" value="&#xA;&#x9;&#x9;&#x9;self.oclContainer().oclAsType(Consumer) = self.order.consumer"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="order" lowerBound="1" eType="#//Order"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="reason" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="circularProcess" lowerBound="1"
+        eType="#//CircularProcess" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Shipment">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="delivered" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="deliveryDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="co2Emission" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="destination" lowerBound="1"
+        eType="#//Actor"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CircularProcess" abstract="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="shipmentDeliveryDateAfterOrderDate"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="shipmentDeliveryDateAfterOrderDate" value="&#xA;&#x9;&#x9;&#x9;not self.shipment.oclIsUndefined()&#xA;&#x9;&#x9;&#x9;implies self.shipment.deliveryDate > self.oclContainer().oclAsType(Return).order.date"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//FacilityType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="shipment" eType="#//Shipment"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="energySavedKWh" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="waterSavedL" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="facility" lowerBound="1"
+        eType="#//Facility"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RepairProcess" eSuperTypes="#//CircularProcess">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="repairShipmentsGoToConsumer repairProcessType"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="repairShipmentsGoToConsumer" value="&#xA;&#x9;&#x9;&#x9;not self.shipment.oclIsUndefined()&#xA;&#x9;&#x9;&#x9;implies self.shipment.destination.oclIsKindOf(Consumer)"/>
+      <details key="repairProcessType" value="&#xA;&#x9;&#x9;&#x9;self.type = FacilityType::REPAIR"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RefurbishProcess" eSuperTypes="#//CircularProcess">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="refurbishedShipmentsGoToRetailer refurbishProcessType"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="refurbishedShipmentsGoToRetailer" value="&#xA;&#x9;&#x9;&#x9;not self.shipment.oclIsUndefined()&#xA;&#x9;&#x9;&#x9;implies self.shipment.destination.oclIsKindOf(Retailer)"/>
+      <details key="refurbishProcessType" value="&#xA;&#x9;&#x9;&#x9;self.type = FacilityType::REFURBISH"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RecycleProcess" eSuperTypes="#//CircularProcess">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="recycleProcessType recycleShipmentsGoToManufacturer noShipmentImpliesAllInCircular withShipmentImpliesAllInCircularOrReady allRecoveredComponentsFromReturnedProduct"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="recycleProcessType" value="&#xA;&#x9;&#x9;&#x9;self.type = FacilityType::RECYCLE"/>
+      <details key="recycleShipmentsGoToManufacturer" value="&#xA;&#x9;&#x9;&#x9;not self.shipment.oclIsUndefined()&#xA;&#x9;&#x9;&#x9;implies self.shipment.destination.oclIsKindOf(Manufacturer)"/>
+      <details key="noShipmentImpliesAllInCircular" value="&#xA;&#x9;&#x9;&#x9;self.shipment.oclIsUndefined()&#xA;&#x9;&#x9;&#x9;implies self.recovers->forAll(c | c.ComponentState = ComponentState::IN_CIRCULAR_PROCESS)"/>
+      <details key="withShipmentImpliesAllInCircularOrReady" value="&#xA;&#x9;&#x9;&#x9;not self.shipment.oclIsUndefined()&#xA;&#x9;&#x9;&#x9;implies self.recovers->forAll(c | c.ComponentState = ComponentState::IN_CIRCULAR_PROCESS or c.ComponentState = ComponentState::READY)"/>
+      <details key="allRecoveredComponentsFromReturnedProduct" value="&#xA;&#x9;&#x9;&#x9;self.recovers->forAll(c | not c.belongs_to.oclIsUndefined() and c.belongs_to = self.oclContainer().oclAsType(Return).order.product)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recovers" lowerBound="1"
+        upperBound="-1" eType="#//Component"/>
+  </eClassifiers>
+</ecore:EPackage>

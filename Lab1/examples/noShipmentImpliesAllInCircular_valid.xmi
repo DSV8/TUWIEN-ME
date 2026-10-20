@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CEML:CircularEconomy
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:CEML="http://www.example.org/CEML">
+  <actor xsi:type="CEML:Consumer">
+    <orders
+        date="2025-02-01T00:00:00.000+0100"
+        product="//@product.0"/>
+    <returns
+        order="//@actor.0/@orders.0">
+      <circularProcess
+          xsi:type="CEML:RecycleProcess"
+          type="RECYCLE"
+          facility="//@facility.0"
+          recovers="//@actor.2/@produces.0"/>
+    </returns>
+  </actor>
+  <actor xsi:type="CEML:Retailer"/>
+  <actor xsi:type="CEML:Manufacturer">
+    <produces
+        ComponentState="IN_CIRCULAR_PROCESS"
+        belongs_to="//@product.0"/>
+  </actor>
+  <facility/>
+  <product assemblyDate="2025-01-01T00:00:00.000+0100"
+      sold_by="//@actor.1"
+      made_by="//@actor.2/@produces.0"/>
+</CEML:CircularEconomy>

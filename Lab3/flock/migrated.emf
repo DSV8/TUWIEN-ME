@@ -1,0 +1,145 @@
+@namespace(uri="ce", prefix="")
+
+package ce;
+
+// --- Enums ---
+enum Comparator { MIN=0; MAX=1; }
+enum FacilityType { REPAIR=0; REFURBISH=1; RECYCLE=2; }
+enum LifecycleState { READY=0; ASSEMBLED=1; IN_LOOP=2; }
+
+// New Enum
+enum LoyaltyTier { BASIC=0; PREMIUM=1; }
+enum ShipmentType { AIR=0; }
+enum ReturnType   { REPAIR=0; }
+
+// --- Root container ---
+class CircularEconomyNetwork {
+    attr String       name;
+
+    // unified actors collection
+    val  CircularActor[*]       actors;
+    val  SustainabilityMetric[*] metrics;
+    val  Facility[*]          facilities;
+    val  Product[*]           products;
+}
+
+// abstract supertype for all actors
+abstract class CircularActor {
+    attr String name;
+}
+
+// Producer = evolved Manufacturer
+class Producer extends CircularActor {
+    attr float productionCapacity;
+    val Component[*] components;
+}
+
+// DistributionPartner = evolved Retailer
+class DistributionPartner extends CircularActor {
+    attr boolean omniChannel;
+}
+
+// Customer = evolved Consumer
+class Customer extends CircularActor { 
+    val Order[*]  orders;
+    val ReturnOrder[*] returns;
+
+    attr LoyaltyTier loyaltyTier;
+}
+
+class SustainabilityMetric {
+    attr String     name;
+    attr String[0..1]  description;
+    attr float      threshold;
+    attr String unit;
+
+    attr Comparator comparator;
+}
+
+class FacilityProfile {
+    // derived from Facility.type
+    attr FacilityType category;
+
+    attr float  waterSaved;
+    attr float  energySaved;
+    attr float  co2Emissions; // sum of emissions from shipments
+}
+
+class Facility {
+    attr String       name;
+    ref  SustainabilityMetric[*] metrics; // 5.
+    attr String[0..1] operationalSince = "10-12-1999"; // 6.
+
+    val  FacilityProfile[0..1] profile;
+}
+
+class Product {
+    id attr String ~id;
+    attr String name;
+    attr float  basePrice;
+    attr Date   assemblyDate;
+    ref  DistributionPartner retailer;
+    ref  Component[1..*] parts;
+}
+
+class Order {
+    id attr String ~id;
+    attr Date date;
+    val  LogisticsEvent[1] event;
+}
+
+class Purchase extends Order {
+    ref  Product product;
+}
+
+class Component {
+    id attr String ~identifier;
+    attr String name;
+    attr boolean recycled;
+    attr LifecycleState lifecycleState;
+}
+
+class ReturnOrder extends Order {
+    attr String reason;
+    ref  Purchase originatingPurchase;
+    val  CircularProcess[*] circularProcesses;
+}
+
+abstract class CircularProcess {
+    ref  Facility facility;
+    //val  Shipment[0..1] shipment;
+    val  ShipmentEvent[0..1] shipmentEvent;
+    attr float energySavedKWh;
+    attr float waterSavedL;
+}
+
+class RepairProcess extends CircularProcess { }
+class RefurbishProcess extends CircularProcess { }
+
+class RecycleProcess extends CircularProcess {
+    ref Component[*] components;
+}
+
+abstract class LogisticsEvent {
+    attr int   eventId;
+}
+
+class PurchaseEvent extends LogisticsEvent {
+    attr Date    date;
+    attr boolean delivered;
+    attr Date    deliveryDate;
+}
+
+class ReturnEvent extends LogisticsEvent {
+    attr String   reason;
+    attr ReturnType type;
+}
+
+class ShipmentEvent extends LogisticsEvent {
+    attr Date         date;
+    attr boolean      delivered;
+    attr Date         deliveryDate;
+    attr String       name;
+    attr ShipmentType shipmentType;
+    attr float        co2Emissions;
+}

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel"
+    modelDirectory="/CEML/src-gen" creationIcons="false" editDirectory="/CEML.edit/src-gen"
+    editorDirectory="/CEML.editor/src-gen" modelPluginID="CEML" modelName="CEML" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    codeFormatting="true" importerID="org.eclipse.emf.importer.ecore" complianceLevel="21.0"
+    copyrightFields="false" operationReflection="true" importOrganizing="true">
+  <foreignModel>CEML.ecore</foreignModel>
+  <testsDirectory xsi:nil="true"/>
+  <genPackages prefix="CEML" disposableProviderFactory="true" ecorePackage="CEML.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="CEML.ecore#//ComponentState">
+      <genEnumLiterals ecoreEnumLiteral="CEML.ecore#//ComponentState/READY"/>
+      <genEnumLiterals ecoreEnumLiteral="CEML.ecore#//ComponentState/ASSEMBLED"/>
+      <genEnumLiterals ecoreEnumLiteral="CEML.ecore#//ComponentState/IN_CIRCULAR_PROCESS"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="CEML.ecore#//ComparatorState">
+      <genEnumLiterals ecoreEnumLiteral="CEML.ecore#//ComparatorState/MAX"/>
+      <genEnumLiterals ecoreEnumLiteral="CEML.ecore#//ComparatorState/MIN"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="CEML.ecore#//FacilityType">
+      <genEnumLiterals ecoreEnumLiteral="CEML.ecore#//FacilityType/REPAIR"/>
+      <genEnumLiterals ecoreEnumLiteral="CEML.ecore#//FacilityType/REFURBISH"/>
+      <genEnumLiterals ecoreEnumLiteral="CEML.ecore#//FacilityType/RECYCLE"/>
+    </genEnums>
+    <genClasses ecoreClass="CEML.ecore#//Consumer">
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference CEML.ecore#//Consumer/orders"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference CEML.ecore#//Consumer/returns"/>
+    </genClasses>
+    <genClasses ecoreClass="CEML.ecore#//CircularEconomy">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CEML.ecore#//CircularEconomy/name"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference CEML.ecore#//CircularEconomy/actor"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CEML.ecore#//CircularEconomy/facility"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CEML.ecore#//CircularEconomy/sustainabilitygoal"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CEML.ecore#//CircularEconomy/product"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="CEML.ecore#//Actor">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CEML.ecore#//Actor/name"/>
+    </genClasses>
+    <genClasses ecoreClass="CEML.ecore#//Manufacturer">
+      <genFeatures property="None" children="true" createChild="true" propertySortChoices="true"
+          ecoreFeature="ecore:EReference CEML.ecore#//Manufacturer/produces"/>
+    </genClasses>
+    <genClasses ecoreClass="CEML.ecore#//Retailer"/>
+    <genClasses ecoreClass="CEML.ecore#//Component">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CEML.ecore#//Component/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CEML.ecore#//Component/recycled"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CEML.ecore#//Component/componentName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CEML.ecore#//Component/ComponentState"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference CEML.ecore#//Component/belongs_to"/>
+    </genClasses>
+    <genClasses ecoreClass="CEML.ecore#//Product">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CEML.ecore#//Product/serialNumber"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CEML.ecore#//Product/productName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CEML.ecore#//Product/price"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CEML.ecore#//Product/assemblyDate"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference CEML.ecore#//Product/sold_by"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference CEML.ecore#//Product/made_by"/>
+    </genClasses>
+    <genClasses ecoreClass="CEML.ecore#//SustainabilityGoal">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CEML.ecore#//SustainabilityGoal/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CEML.ecore#//SustainabilityGoal/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CEML.ecore#//SustainabilityGoal/standard"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CEML.ecore#//SustainabilityGoal/comparator"/>
+    </genClasses>
+    <genClasses ecoreClass="CEML.ecore#//Facility">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CEML.ecore#//Facility/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CEML.ecore#//Facility/type"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference CEML.ecore#//Facility/goals"/>
+    </genClasses>
+    <genClasses ecoreClass="CEML.ecore#//Order">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CEML.ecore#//Order/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CEML.ecore#//Order/date"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference CEML.ecore#//Order/product"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference CEML.ecore#//Order/consumer"/>
+    </genClasses>
+    <genClasses ecoreClass="CEML.ecore#//Return">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference CEML.ecore#//Return/order"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CEML.ecore#//Return/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CEML.ecore#//Return/reason"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CEML.ecore#//Return/circularProcess"/>
+    </genClasses>
+    <genClasses ecoreClass="CEML.ecore#//Shipment">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CEML.ecore#//Shipment/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CEML.ecore#//Shipment/delivered"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CEML.ecore#//Shipment/deliveryDate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CEML.ecore#//Shipment/co2Emission"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference CEML.ecore#//Shipment/destination"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="CEML.ecore#//CircularProcess">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CEML.ecore#//CircularProcess/type"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CEML.ecore#//CircularProcess/shipment"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CEML.ecore#//CircularProcess/energySavedKWh"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CEML.ecore#//CircularProcess/waterSavedL"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference CEML.ecore#//CircularProcess/facility"/>
+    </genClasses>
+    <genClasses ecoreClass="CEML.ecore#//RepairProcess"/>
+    <genClasses ecoreClass="CEML.ecore#//RefurbishProcess"/>
+    <genClasses ecoreClass="CEML.ecore#//RecycleProcess">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CEML.ecore#//RecycleProcess/recovers"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

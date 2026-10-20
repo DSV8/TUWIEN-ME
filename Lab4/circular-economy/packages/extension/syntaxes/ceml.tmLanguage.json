@@ -1,0 +1,71 @@
+{
+  "name": "ceml",
+  "scopeName": "source.ceml",
+  "fileTypes": [
+    "ceml"
+  ],
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "name": "keyword.control.ceml",
+      "match": "\\b(ASSEMBLED|CircularEconomy|CircularProcess|Component|Consumer|Facility|IN_CIRCULAR_PROCESS|MAX|MIN|Manufacturer|Order|Product|READY|RECYCLE|REFURBISH|REPAIR|RecycleProcess|RefurbishProcess|RepairProcess|Retailer|Return|SustainabilityGoal|actors|assemblyDate|co2Emission|comparator|components|delivered|deliveryDate|description|destination|energySavedKWh|facilities|facility|goals|order|orders|price|productName|products|reason|recycled|retailer|returns|shipment|standard|waterSavedL)\\b"
+    },
+    {
+      "name": "string.quoted.double.ceml",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "include": "#string-character-escape"
+        }
+      ]
+    },
+    {
+      "name": "string.quoted.single.ceml",
+      "begin": "'",
+      "end": "'",
+      "patterns": [
+        {
+          "include": "#string-character-escape"
+        }
+      ]
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.block.ceml",
+          "begin": "/\\*",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.ceml"
+            }
+          },
+          "end": "\\*/",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.ceml"
+            }
+          }
+        },
+        {
+          "begin": "//",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.whitespace.comment.leading.ceml"
+            }
+          },
+          "end": "(?=$)",
+          "name": "comment.line.ceml"
+        }
+      ]
+    },
+    "string-character-escape": {
+      "name": "constant.character.escape.ceml",
+      "match": "\\\\(x[0-9A-Fa-f]{2}|u[0-9A-Fa-f]{4}|u\\{[0-9A-Fa-f]+\\}|[0-2][0-7]{0,2}|3[0-6][0-7]?|37[0-7]?|[4-7][0-7]?|.|$)"
+    }
+  }
+}

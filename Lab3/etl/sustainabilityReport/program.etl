@@ -1,0 +1,68 @@
+rule CircularEconomy2Report
+transform ce : Source!CircularEconomy
+to sr : Target!Report {
+    sr.name = ce.name;
+    sr.generatedOn = Native("java.time.LocalDateTime").now().toString();
+    sr.version = "v1.0";
+
+    sr.totalCO2 = Source!Shipment.all.collect(s | s.co2Emission).sum();
+
+    sr.facilities ::= Source!Facility.all;
+    sr.products ::= Source!Product.all;
+}
+
+rule Facility2FacilityReport
+transform f : Source!Facility
+to fr : Target!FacilityReport {
+    fr.facilityReportId = "FR_" + (Source!Facility.all.indexOf(f) + 1);
+    fr.facilityName = f.name + " (" + f.type + ")";
+
+    // get all circular processes for this facility
+    var processes = Source!CircularProcess.all.select(cp | cp.facility = f);
+    // get all shipments of the processes
+    var shipments = processes.collect(cp | cp.shipment).flatten();
+
+    fr.co2 = shipments.collect(s | s.co2Emission).sum();
+    fr.energySavedKWh = processes.collect(cp | cp.energySavedKWh).sum();
+    fr.waterSavedL = processes.collect(cp | cp.waterSavedL).sum();
+    fr.shipmentsTotal = shipments.size();
+    fr.shipmentsDelivered = shipments.select(s | s.delivered).size();
+    fr.shipmentsNotDelivered = shipments.select(s | not s.delivered).size();
+
+    // create goal results
+    for (goal in f.goals) {
+        var gr = new Target!GoalResult;
+        gr.goalName = goal.name;
+        gr.standard = goal.standard;
+        gr.comparator = goal.comparator.toString();
+
+        if (goal.name.toLowerCase().contains("energy")) {
+            gr.actual = fr.energySavedKWh;
+        } else if (goal.name.toLowerCase().contains("water")) {
+            gr.actual = fr.waterSavedL;
+        } else if (goal.name.toLowerCase().contains("co2")) {
+            gr.actual = fr.co2;
+        }
+        if (goal.comparator = Source!Comparator#MIN) {
+            gr.isCompliant = gr.actual >= gr.standard;
+        } else { 
+            gr.isCompliant = gr.actual <= gr.standard;
+        }
+        fr.goals.add(gr);
+    }
+}
+
+rule Product2ProductSummary
+transform p : Source!Product
+to ps : Target!ProductSummary {
+    ps.productSummaryId = "PS_" + (Source!Product.all.indexOf(p) + 1);
+    ps.serialNumber = p.serialNumber;
+    ps.price = p.price.asString() + " EUR";
+    ps.componentCount = p.components.size();
+    
+    // count recycled components
+    var recycledCount = p.components.select(c | c.recycled).size();
+    if (recycledCount > 0) {
+        ps.recycledComponentCount = recycledCount;
+    }
+}

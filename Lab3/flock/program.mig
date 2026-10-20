@@ -1,0 +1,271 @@
+// Pre-migration diagnostics
+pre {
+
+    "== Pre-migration snapshot ==".println();
+
+    // Consumers (no loyalty tier yet)
+    var consumers = Original!Consumer.all.size;
+    ("Consumers ( no loyalty tier yet ): " + consumers).println();
+
+    // Orders missing logistics events – in the given test model this is 1
+    // (you can just count all orders, since none have events yet)
+    var orders = Original!Order.all.size;
+    ("Orders missing logistics events : " + orders).println();
+
+    // Facilities without profiles – again, all facilities before migration
+    var facilities = Original!Facility.all.size;
+    ("Facilities without profiles : " + facilities).println();
+
+    "Event counts ( original model ):".println();
+
+    var shipments = Original!Shipment.all.size;
+    ("Shipments : " + shipments).println();
+}
+
+// 1.
+// Replace all occurrences of CircularEconomy with CircularEconomyNetwork
+migrate CircularEconomy {
+    // put all retyped actors into the new actors collection
+    migrated.actors.addAll(original.manufacturer.equivalent());
+    migrated.actors.addAll(original.retailer.equivalent());
+    migrated.actors.addAll(original.consumer.equivalent());
+
+    // migrate all products into the network
+    migrated.products.addAll(original.product.equivalent());
+
+    // migrate all facilities into the network
+    migrated.facilities.addAll(original.facility.equivalent());
+
+    // migrate all sustainability metrics into the network
+    migrated.metrics.addAll(original.sustainabilitygoal.equivalent());
+}
+retype CircularEconomy to CircularEconomyNetwork
+
+// 2.
+// Retype Retailer to DistributionPartner and set omniChannel to false
+migrate Retailer {
+    migrated.omniChannel = false;
+}
+retype Retailer to DistributionPartner
+
+// Retype Manufacturer to Producer and set default productionCapacity
+migrate Manufacturer {
+    // default production capacity set to 0.0
+    migrated.productionCapacity = 0.0;
+
+    // migrate components produced by the manufacturer
+    migrated.components.addAll(original.component.equivalent());
+}
+retype Manufacturer to Producer
+
+// 3.
+// Retype Consumer to Customer and add loyaltyTier attribute
+operation Consumer hasPremiumActivity() : Boolean {
+    return self.orders.notEmpty() or self.returns.notEmpty();
+}
+
+migrate Consumer {
+    if (original.hasPremiumActivity()) {
+        migrated.loyaltyTier = Migrated!LoyaltyTier#PREMIUM;
+    } else {
+        migrated.loyaltyTier = Migrated!LoyaltyTier#BASIC;
+    }
+}
+retype Consumer to Customer
+
+// 4.
+// Rename SustainabilityGoal to SustainabilityMetric, rename standard to threshold attribute and add a unit string attribute
+operation SustainabilityGoal unitForName() : String {
+    if (self.name = "ReduceWaste") return "ppm";
+    return "wpm";
+}
+
+migrate SustainabilityGoal {
+    migrated.threshold = original.standard;
+    migrated.unit      = original.unitForName();
+}
+retype SustainabilityGoal to SustainabilityMetric
+
+// 6.
+// Migrate Facility to add an operationalSince optional attribute with default value "10-12-1999"
+
+// All processes that refer to this facility
+operation Original!Facility attachedProcesses() : Sequence(Original!CircularProcess) {
+    return Original!CircularProcess.all.select(p | p.facility == self);
+}
+
+// Total energy saved over all attached processes
+operation Original!Facility totalEnergySaved() : Real {
+    return self.attachedProcesses()
+        .collect(p | p.energySavedKWh)
+        .sum().asFloat();
+}
+
+// Total water saved over all attached processes
+operation Original!Facility totalWaterSaved() : Real {
+    return self.attachedProcesses()
+        .collect(p | p.waterSavedL)
+        .sum().asFloat();
+}
+
+// Total CO2 emissions from all shipments of attached processes
+operation Original!Facility totalCo2Emissions() : Real {
+    var allShipments = self.attachedProcesses()
+        .collect(p | p.shipment)
+        .select(s | not s.isUndefined()); // because shipment is [0..1]
+
+    return allShipments
+        .collect(s | s.co2Emission)
+        .sum().asFloat();
+}
+
+// 6. Extend Facility with operationalSince and a contained FacilityProfile
+migrate Facility {
+    // Create and assign FacilityProfile
+    var fp = new Migrated!FacilityProfile;
+    fp.category = original.type.equivalent(); // 7. The facility category mirrors the original enum values
+
+    // Calculate and set sustainability metrics
+    fp.energySaved = original.totalEnergySaved();
+    fp.waterSaved  = original.totalWaterSaved();
+    fp.co2Emissions = original.totalCo2Emissions();
+
+    migrated.profile = fp;
+
+    // Set goals as metrics
+    migrated.metrics.addAll(original.goals.equivalent());
+}
+
+// 8.
+migrate Product {
+    migrated.name      = original.productName;
+    migrated.basePrice = original.price.asFloat();
+    migrated.retailer  = original.retailer.equivalent();
+    migrated.parts     = original.components.equivalent();
+}
+
+// 9.
+operation Original!Component mappedLifecycleState() {
+    if (self.componentState = Original!ComponentState#READY) {
+        return Migrated!LifecycleState#READY;
+    } else if (self.componentState = Original!ComponentState#ASSEMBLED) {
+        return Migrated!LifecycleState#ASSEMBLED;
+    } else if (self.componentState = Original!ComponentState#IN_CIRCULAR_PROCESS) {
+        return Migrated!LifecycleState#IN_LOOP;
+    } else {
+        // default to IN_LOOP when uncertain
+        return Migrated!LifecycleState#IN_LOOP;
+    }
+}
+
+migrate Component {
+    migrated.identifier     = original.id;
+    migrated.name           = original.componentName;
+    migrated.recycled       = original.recycled;
+    migrated.lifecycleState = original.mappedLifecycleState();
+}
+
+// 10. & 11. & 12.
+migrate Order {
+    migrated.id      = original.id;
+    migrated.date    = original.date;
+    migrated.product = original.product.equivalent();
+
+    // Create PurchaseEvent
+    var pe = new Migrated!PurchaseEvent;
+    pe.eventId = Migrated!LogisticsEvent.all.size + 1;
+    pe.date    = original.date;
+    pe.delivered = false; // default value
+    pe.deliveryDate = original.date;
+    migrated.event = pe;
+}
+retype Order to Purchase
+
+migrate Return {
+    migrated.id                  = original.id;
+    migrated.date                = original.date;
+    migrated.reason              = original.reason;
+    migrated.originatingPurchase = original.order.equivalent();
+    migrated.circularProcesses.addAll(original.circularprocesses.equivalent());
+
+    // Create ReturnEvent
+    var re = new Migrated!ReturnEvent;
+    re.eventId = Migrated!LogisticsEvent.all.size + 1;
+    re.reason = original.reason;
+    re.type = Migrated!ReturnType#REPAIR; // default type
+    migrated.event = re;
+}
+retype Return to ReturnOrder
+
+operation Original!CircularProcess createShipmentEvent(eventName : String) {
+    if (self.shipment.isUndefined()) return null;
+
+    var se = new Migrated!ShipmentEvent;
+    se.eventId = Migrated!LogisticsEvent.all.size + 1;
+    se.name = eventName;
+    se.shipmentType = Migrated!ShipmentType#AIR;
+    se.co2Emissions = 20.0;
+    se.date = self.shipment.deliveryDate;
+    se.deliveryDate = self.shipment.deliveryDate;
+    se.delivered = self.shipment.delivered;
+    return se;
+}
+
+migrate RecycleProcess {
+    migrated.facility       = original.facility.equivalent();
+    migrated.energySavedKWh = original.energySavedKWh;
+    migrated.waterSavedL    = original.waterSavedL;
+    migrated.components     = original.components.equivalent();
+
+    var se = original.createShipmentEvent("A-R0-REC");
+    if (not se.isUndefined()) migrated.shipmentEvent = se;
+}
+
+migrate RefurbishProcess {
+    migrated.facility       = original.facility.equivalent();
+    migrated.energySavedKWh = original.energySavedKWh;
+    migrated.waterSavedL    = original.waterSavedL;
+
+    var se = original.createShipmentEvent("A-R0-REF");
+    if (not se.isUndefined()) migrated.shipmentEvent = se;
+}
+
+migrate RepairProcess {
+    migrated.facility       = original.facility.equivalent();
+    migrated.energySavedKWh = original.energySavedKWh;
+    migrated.waterSavedL    = original.waterSavedL;
+
+    var se = original.createShipmentEvent("A-R0-REP");
+    if (not se.isUndefined()) migrated.shipmentEvent = se;
+}
+
+post {
+
+    "== Post-migration snapshot ==".println();
+
+    // Customers with loyalty tiers
+    var customers = Migrated!Customer.all.size;
+    ("Customers ( with loyalty tier ): " + customers).println();
+
+    // Total Events
+    var totalEvents = Migrated!LogisticsEvent.all.size;
+    ("Total events : " + totalEvents).println();
+
+    // Facilities with profiles – should be all facilities now
+    var facilities = Migrated!Facility.all.select(f | not f.profile.isUndefined()).size;
+    ("Facilities enriched with profiles : " + facilities).println();
+
+    "Event counts ( migrated model ):".println();
+    
+    // PurchaseEvents
+    var purchases = Migrated!PurchaseEvent.all.size;
+    ("Purchases : " + purchases).println();
+
+    // ReturnEvents
+    var returns = Migrated!ReturnEvent.all.size;
+    ("Returns : " + returns).println();
+
+    // ShipmentEvents
+    var shipments = Migrated!ShipmentEvent.all.size;
+    ("Shipments : " + shipments).println();
+}
